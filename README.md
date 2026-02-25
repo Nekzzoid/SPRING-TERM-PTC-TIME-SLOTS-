@@ -202,7 +202,7 @@ const teachers = {
 const classLinks = {
  "Year 1 Onyx": "https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ0rYRtfsS0YSZnutOo0_TqW8oPJgK-F9g_qKDUeRw0uPHg7uYmdKwIzhwDfRXBmetIxoEUEVpKe",
  "Year 1 Amber": "https://calendar.app.google/JkBUKhqXFwFCFuLs7",
- "Year 2 Ruby": "https://meet.google.com/ruby",
+ "Year 2 Ruby": "https://calendar.app.google/gfJixyvndGv5H3bm9",
  "Year 2 Beryl": "https://calendar.app.google/dgdvBJFCeTH6AchZ8",
  "Year 3 Crystal": "https://calendar.app.google/Y83p4YJ5PEdu6p8g9",
  "Year 3 Silver": "https://calendar.app.google/6MLhowC1ff6dKVDk6",
