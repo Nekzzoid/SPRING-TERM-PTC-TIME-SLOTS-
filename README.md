@@ -1,2 +1,128 @@
 # SPRING-TERM-S-PTC-TIME-SLOTS-
 A meeting between parents and teachers to discuss a pupil’s academic progress and behaviour
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fairview School - PTC Countdown</title>
+
+<style>
+:root{
+    --green:#138a36;
+    --yellow:#f2e205;
+    --red:#e10600;
+    --white:#ffffff;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body{
+    background: linear-gradient(135deg, var(--green), #0b5d25);
+    color: var(--white);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    height:100vh;
+    text-align:center;
+}
+
+.logo{
+    width:180px;
+    margin-bottom:20px;
+}
+
+h1{
+    font-size:60px;
+    margin-bottom:10px;
+}
+
+h2{
+    font-size:28px;
+    color:var(--yellow);
+    margin-bottom:40px;
+}
+
+.countdown{
+    display:flex;
+    gap:40px;
+}
+
+.box{
+    background:rgba(255,255,255,0.15);
+    padding:40px;
+    border-radius:20px;
+    min-width:180px;
+}
+
+.number{
+    font-size:80px;
+    font-weight:bold;
+}
+
+.label{
+    font-size:20px;
+    margin-top:10px;
+}
+
+.footer{
+    position:absolute;
+    bottom:30px;
+    font-size:18px;
+    color:var(--yellow);
+}
+</style>
+</head>
+
+<body>
+
+<img src="fairview-logo.png" class="logo">
+
+<h1>Parent-Teacher Conference</h1>
+<h2>Saturday, 28 February 2026 | 9:00 AM (WAT)</h2>
+
+<div class="countdown" id="countdown">
+    <div class="box"><div class="number" id="days">0</div><div class="label">DAYS</div></div>
+    <div class="box"><div class="number" id="hours">0</div><div class="label">HOURS</div></div>
+    <div class="box"><div class="number" id="minutes">0</div><div class="label">MINUTES</div></div>
+    <div class="box"><div class="number" id="seconds">0</div><div class="label">SECONDS</div></div>
+</div>
+
+<div class="footer">Soaring High 🚀 | We are the heartbeat of Fairview</div>
+
+<audio id="alertSound">
+<source src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg">
+</audio>
+
+<script>
+const eventDate = new Date("2026-02-28T09:00:00+01:00").getTime();
+const alertSound = document.getElementById("alertSound");
+
+setInterval(()=>{
+    const now = new Date().getTime();
+    const distance = eventDate - now;
+
+    if(distance <= 0){
+        document.getElementById("countdown").innerHTML="<h1 style='color:#f2e205'>🎉 PTC HAS STARTED!</h1>";
+        alertSound.play();
+        return;
+    }
+
+    document.getElementById("days").innerHTML=Math.floor(distance/(1000*60*60*24));
+    document.getElementById("hours").innerHTML=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+    document.getElementById("minutes").innerHTML=Math.floor((distance%(1000*60*60))/(1000*60));
+    document.getElementById("seconds").innerHTML=Math.floor((distance%(1000*60))/1000);
+
+},1000);
+</script>
+
+</body>
+</html>
