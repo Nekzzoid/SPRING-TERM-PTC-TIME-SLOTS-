@@ -17,6 +17,12 @@ header{
     padding:20px;
 }
 h1{margin:0;}
+
+.logo{
+    width:120px;
+    margin-bottom:10px;
+}
+
 .container{
     background:white;
     color:black;
@@ -26,20 +32,24 @@ h1{margin:0;}
     width:95%;
     max-width:1200px;
 }
+
 select,input,button{
     padding:8px;
     margin:5px;
     border-radius:6px;
     border:1px solid #ccc;
 }
+
 button{
     background:#004aad;
     color:white;
     cursor:pointer;
 }
+
 button:hover{
     background:#002147;
 }
+
 .slot{
     display:inline-block;
     margin:5px;
@@ -49,28 +59,35 @@ button:hover{
     font-size:12px;
     min-width:80px;
 }
+
 .available{
     background:#28a745;
     animation:pulse 2s infinite;
 }
+
 .booked{
     background:#dc3545;
     color:white;
 }
+
 .disabled{
     background:gray;
     cursor:not-allowed;
 }
+
 @keyframes pulse{
     0%{opacity:1;}
     50%{opacity:0.6;}
     100%{opacity:1;}
 }
+
 .hidden{display:none;}
+
 table{
     width:100%;
     border-collapse:collapse;
 }
+
 th,td{
     border:1px solid #ccc;
     padding:6px;
@@ -80,6 +97,7 @@ th,td{
 <body>
 
 <header>
+<img src="https://cdn.phototourl.com/uploads/2026-02-26-8f429b47-8d09-4435-8a91-9306a9fcf9f2.png" class="logo">
 <h1>FAIRVIEW SCHOOL</h1>
 <h3>PTC Booking System</h3>
 <div id="clock"></div>
@@ -216,7 +234,6 @@ function bookSlot(time){
         alert("Enter parent & student name"); return;
     }
 
-    // Auto lock Friday 6PM
     let now=new Date().toLocaleString("en-NG",{timeZone:"Africa/Lagos"});
     now=new Date(now);
     let fridayLock=new Date(eventDate);
@@ -247,7 +264,8 @@ function refreshSlots(){
         let time=s.innerText.replace(" (Break)","");
         if(bookings.find(b=>b.className===className && b.time===time)){
             s.className="slot booked";
-            s.innerHTML=time+"<br><small>"+bookings.find(b=>b.className===className && b.time===time).parent+"</small>";
+            let info = bookings.find(b=>b.className===className && b.time===time);
+            s.innerHTML=time+"<br><small>"+info.parent+"</small>";
         }
     });
 }
