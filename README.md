@@ -99,7 +99,7 @@ th,td{
 <h3>PTC Booking System</h3>
 </header>
 
-<!-- LOGIN -->
+<!-- LOGIN WITH TEACHER ID -->
 <div class="container" id="loginSection">
 <h3>Login</h3>
 
@@ -115,11 +115,11 @@ th,td{
 <button onclick="login()">Login</button>
 </div>
 
-<!-- PARENT DASHBOARD -->
+<!-- PARENT DASHBOARD (CAN SEE ALL BOOKINGS) -->
 <div class="container hidden" id="bookingSection">
-<h3>Parent Dashboard</h3>
+<h3>Parent Dashboard (View All Bookings)</h3>
 
-<input type="text" id="parentName" placeholder="Parent Name">
+<input type="text" id="parentName" placeholder="Your Name">
 <input type="text" id="phone" placeholder="Phone Number">
 
 <select id="teacherSelect">
@@ -132,7 +132,6 @@ th,td{
 <option value="MsMary">Ms Mary</option>
 <option value="MsMaryjane">Ms Maryjane</option>
 <option value="MrJacob">Mr Jacob</option>
-<option value="MrMichael">Mr Michael</option>
 <option value="MsAyoola">Ms Ayoola</option>
 <option value="MsImaobong">Ms Imaobong</option>
 </select>
@@ -144,7 +143,7 @@ th,td{
 <button onclick="submitBooking()">Book Appointment</button>
 </div>
 
-<!-- TEACHER / ADMIN DASHBOARD -->
+<!-- DASHBOARD (TEACHER OR ADMIN OR PARENT VIEW) -->
 <div class="container hidden" id="adminSection">
 <h3 id="dashboardTitle"></h3>
 
@@ -153,7 +152,7 @@ th,td{
 
 <script>
 
-// ===== DATABASE =====
+// ===== DATABASE (TEACHER IDS) =====
 const users = {
  teachers: {
   "MsVictoria":"pass123",
@@ -164,7 +163,6 @@ const users = {
   "MsMary":"pass123",
   "MsMaryjane":"pass123",
   "MrJacob":"pass123",
-  "MrMichael":"pass123",
   "MsAyoola":"pass123",
   "MsImaobong":"pass123"
  },
@@ -174,33 +172,30 @@ const users = {
 };
 
 let userRole = "public";
-let userId = "";
-
+let teacherId = "";
 let bookings = JSON.parse(localStorage.getItem("fairviewBookings")) || [];
 
-// ===== LOGIN =====
+// ===== LOGIN WITH TEACHER ID =====
 function login(){
  const role = document.getElementById("role").value;
  const id = document.getElementById("userId").value;
  const pass = document.getElementById("password").value;
 
  if(role === "teacher"){
-   if(users.teachers[id] && users.teachers[id] === pass){
-     userRole = "teacher";
-     userId = id;
-   } else {
-     alert("Invalid teacher credentials");
+   if(!id || users.teachers[id] !== pass){
+     alert("Invalid teacher ID or password");
      return;
    }
+   teacherId = id;
+   userRole = "teacher";
  }
 
  if(role === "admin"){
-   if(users.admin[id] === pass){
-     userRole = "admin";
-   } else {
-     alert("Invalid admin credentials");
+   if(pass !== "admin123"){
+     alert("Invalid admin password");
      return;
    }
+   userRole = "admin";
  }
 
  if(role === "parent"){
@@ -272,7 +267,7 @@ function selectSlot(time){
  alert("Selected: "+time);
 }
 
-// ===== BOOK SLOT =====
+// ===== BOOK SLOT (PARENT CAN SEE ALL BOOKINGS) =====
 function submitBooking(){
  let parent=document.getElementById("parentName").value;
  let phone=document.getElementById("phone").value;
@@ -301,9 +296,10 @@ function submitBooking(){
  alert("Booking confirmed");
 
  refreshSlots();
+ loadDashboard();
 }
 
-// ===== REFRESH SLOT STATUS =====
+// ===== REFRESH SLOT STATUS (VISIBLE TO ALL) =====
 function refreshSlots(){
  let className=document.getElementById("classSelect").value;
 
@@ -313,34 +309,27 @@ function refreshSlots(){
 
   if(booked){
     s.className="slot booked";
-    if(userRole==="teacher" || userRole==="admin"){
-      s.innerHTML=time+"<br><small>"+booked.parent+"</small>";
-    } else {
-      s.innerHTML=time+"<br><small>Booked</small>";
-    }
+    s.innerHTML=time+"<br><small>"+booked.parent+"</small>";
   }
  });
 }
 
-// ===== TEACHER / ADMIN DASHBOARD =====
+// ===== DASHBOARD (SHOW ALL BOOKINGS) =====
 function loadDashboard(){
  let table=document.getElementById("bookingTable");
- table.innerHTML="<tr><th>Class</th><th>Time</th><th>Parent</th><th>Phone</th></tr>";
-
- let data = (userRole==="teacher")
-   ? bookings.filter(b=>b.teacher===userId)
-   : bookings;
+ table.innerHTML="<tr><th>Class</th><th>Time</th><th>Parent</th><th>Phone</th><th>Teacher</th></tr>";
 
  document.getElementById("dashboardTitle").innerText =
-   userRole==="admin" ? "Admin Dashboard" : "Teacher Dashboard ("+userId+")";
+   (userRole==="admin") ? "Admin Dashboard" : "Teacher Dashboard ("+teacherId+")";
 
- data.forEach(b=>{
+ bookings.forEach(b=>{
   table.innerHTML+=`
   <tr>
     <td>${b.className}</td>
     <td>${b.time}</td>
     <td>${b.parent}</td>
     <td>${b.phone}</td>
+    <td>${b.teacher}</td>
   </tr>`;
  });
 }
