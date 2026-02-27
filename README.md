@@ -54,7 +54,7 @@ th,td{border:1px solid #ccc;padding:6px;font-size:12px;}
 <img src="https://imgtolinkx.com/i/ZgUxsuIJ" width="140">
 <h1>FAIRVIEW SCHOOL</h1>
 <h3>Parent Teacher Conference Enterprise Booking</h3>
-<h4>Term: Summer, 2026</h4>
+<h4>Summer Term 2025/2026 Academic Session</h4>
 
 <div class="container" id="loginSection">
 <select id="role">
